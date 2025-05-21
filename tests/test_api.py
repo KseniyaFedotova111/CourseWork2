@@ -6,15 +6,18 @@ from src.json_savers import JSONSaver
 
 @pytest.fixture
 def json_saver(mocker):
+    """создаёт мок-объект JSONSaver для тестов"""
     return mocker.Mock(spec=JSONSaver)
 
 
 @pytest.fixture
 def hh(json_saver):
+    """создаёт объект HH для тестов"""
     return HH(json_saver)
 
 
 def test_connect_to_api_success(hh, mocker):
+    """тестирует успешное подключение к api HH"""
     mock_get = mocker.patch('requests.get')
     mock_get.return_value.status_code = 200
     hh.connect_to_api()
@@ -22,6 +25,7 @@ def test_connect_to_api_success(hh, mocker):
 
 
 def test_connect_to_api_failure(hh, mocker):
+    """тестирует ошибку подключения к api HH"""
     mock_get = mocker.patch('requests.get')
     mock_get.return_value.status_code = 404
     with pytest.raises(ConnectionError):
@@ -29,6 +33,7 @@ def test_connect_to_api_failure(hh, mocker):
 
 
 def test_load_vacancies_success(hh, mocker, json_saver):
+    """тестирует успешную загрузку вакансий с HH"""
     mock_get = mocker.patch('requests.get')
     mock_get.return_value.status_code = 200
     mock_get.return_value.json.return_value = {
@@ -42,6 +47,7 @@ def test_load_vacancies_success(hh, mocker, json_saver):
 
 
 def test_load_vacancies_empty(hh, mocker):
+    """тестирует загрузку пустого списка вакансий"""
     mock_get = mocker.patch('requests.get')
     mock_get.return_value.status_code = 200
     mock_get.return_value.json.return_value = {'items': [], 'pages': 1}
@@ -50,6 +56,7 @@ def test_load_vacancies_empty(hh, mocker):
 
 
 def test_load_vacancies_request_exception(hh, mocker):
+    """тестирует обработку исключения при загрузке вакансий"""
     mock_get = mocker.patch('requests.get')
     mock_get.side_effect = [
         mocker.Mock(status_code=200),

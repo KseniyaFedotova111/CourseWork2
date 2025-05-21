@@ -5,17 +5,24 @@ from typing import List, Dict, Any
 
 
 class Parser(ABC):
+    """абстрактный базовый класс для парсеров api вакансий"""
+
     @abstractmethod
     def connect_to_api(self) -> None:
+        """устанавливает соединение с api"""
         pass
 
     @abstractmethod
     def load_vacancies(self, keyword: str) -> List[Dict[str, Any]]:
+        """загружает вакансии по ключевому слову"""
         pass
 
 
 class HH(Parser):
+    """класс для работы с API HeadHunter"""
+
     def __init__(self, file_worker: Any) -> None:
+        """инициализирует объект HH для работы с api HH"""
         self.__url: str = 'https://api.hh.ru/vacancies'
         self.__headers: Dict[str, str] = {'User-Agent': 'HH-User-Agent'}
         self.__params: Dict[str, Any] = {'text': '', 'page': 0, 'per_page': 100}
@@ -23,11 +30,13 @@ class HH(Parser):
         self.__file_worker = file_worker
 
     def connect_to_api(self) -> None:
+        """проверяет соединение с api HH"""
         response = requests.get(self.__url, headers=self.__headers, params={'per_page': 1})
         if response.status_code != 200:
             raise ConnectionError(f"Ошибка подключения к API: {response.status_code}")
 
     def load_vacancies(self, keyword: str) -> List[Dict[str, Any]]:
+        """загружает вакансии с HH по ключевому слову"""
         self.connect_to_api()
         self.__params['text'] = keyword
         self.__params['page'] = 0

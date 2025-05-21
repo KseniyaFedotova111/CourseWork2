@@ -3,7 +3,7 @@ from src.vacancy import Vacancy
 
 
 def test_vacancy_init():
-    """Тестирует инициализацию вакансии."""
+    """тестирует инициализацию вакансии"""
     vacancy = Vacancy(
         title="Python Developer",
         company="Tech Corp",
@@ -18,7 +18,7 @@ def test_vacancy_init():
 
 
 def test_vacancy_init_empty():
-    """Тестирует инициализацию с пустыми данными."""
+    """тестирует инициализацию с пустыми данными"""
     vacancy = Vacancy("", "", None, None, "", "")
     assert vacancy.title == "Без названия"
     assert vacancy.company == "Неизвестный работодатель"
@@ -29,7 +29,7 @@ def test_vacancy_init_empty():
 
 
 def test_vacancy_init_invalid_salary():
-    """Тестирует инициализацию с некорректной зарплатой."""
+    """тестирует инициализацию с некорректной зарплатой"""
     vacancy = Vacancy(
         title="Java Developer",
         company="Soft Inc",
@@ -43,7 +43,7 @@ def test_vacancy_init_invalid_salary():
 
 
 def test_vacancy_from_dict():
-    """Тестирует создание вакансии из словаря."""
+    """тестирует создание вакансии из словаря"""
     data = {
         "title": "Java Developer",
         "company": "Soft Inc",
@@ -58,7 +58,7 @@ def test_vacancy_from_dict():
 
 
 def test_vacancy_to_dict():
-    """Тестирует преобразование вакансии в словарь."""
+    """тестирует преобразование вакансии в словарь"""
     vacancy = Vacancy(
         title="Manager",
         company="Biz Ltd",
@@ -73,7 +73,7 @@ def test_vacancy_to_dict():
 
 
 def test_vacancy_get_salary():
-    """Тестирует метод get_salary."""
+    """тестирует метод get_salary"""
     vacancy = Vacancy(
         title="Python Developer",
         company="Tech Corp",
@@ -95,16 +95,16 @@ def test_vacancy_get_salary():
 
 
 def test_vacancy_slots():
-    """Тестирует использование __slots__."""
+    """тестирует использование __slots__"""
     vacancy = Vacancy("Test", "Test Inc", 1000, 2000, "RUR", "http://test.com")
     with pytest.raises(AttributeError, match=".*new_attr.*"):
-        vacancy.new_attr = 123  # Должна быть ошибка, так как __slots__
-    assert hasattr(vacancy, "title")  # Проверяем, что атрибут из __slots__ существует
-    assert not hasattr(vacancy, "new_attr")  # Проверяем, что новый атрибут не создан
+        vacancy.new_attr = 123
+    assert hasattr(vacancy, "title")
+    assert not hasattr(vacancy, "new_attr")
 
 
 def test_vacancy_comparison():
-    """Тестирует сравнение вакансий по зарплате."""
+    """тестирует сравнение вакансий по зарплате"""
     vacancy1 = Vacancy("Test1", "Test Inc", 100000, 150000, "RUR", "http://test.com")
     vacancy2 = Vacancy("Test2", "Test Inc", 200000, 250000, "RUR", "http://test.com")
     assert vacancy1 < vacancy2

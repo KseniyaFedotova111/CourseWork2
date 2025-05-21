@@ -4,12 +4,14 @@ from src.json_savers import JSONSaver
 
 @pytest.fixture
 def json_saver(tmp_path):
+    """создаёт временный JSONSaver для тестов"""
     filename = tmp_path / "test_vacancies.json"
     return JSONSaver(filename=str(filename))
 
 
 @pytest.fixture
 def vacancy():
+    """создаёт тестовую вакансию"""
     return {
         "name": "Test Vacancy",
         "employer": {"name": "Test Company"},
@@ -19,6 +21,7 @@ def vacancy():
 
 
 def test_add_vacancy(json_saver, vacancy):
+    """тестирует добавление вакансии в JSONSaver"""
     json_saver.add_vacancy(vacancy)
     vacancies = json_saver.get_vacancies()
     assert len(vacancies) == 1
@@ -31,11 +34,13 @@ def test_add_vacancy(json_saver, vacancy):
 
 
 def test_get_vacancies_empty(json_saver):
+    """тестирует получение пустого списка вакансий"""
     vacancies = json_saver.get_vacancies()
     assert vacancies == []
 
 
 def test_delete_vacancy(json_saver, vacancy):
+    """тестирует удаление вакансии по url"""
     json_saver.add_vacancy(vacancy)
     json_saver.delete_vacancy("http://example.com")
     vacancies = json_saver.get_vacancies()
@@ -43,6 +48,7 @@ def test_delete_vacancy(json_saver, vacancy):
 
 
 def test_add_vacancy_duplicate(json_saver, vacancy):
+    """тестирует добавление дублирующейся вакансии"""
     json_saver.add_vacancy(vacancy)
     json_saver.add_vacancy(vacancy)
     vacancies = json_saver.get_vacancies()
